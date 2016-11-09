@@ -8,7 +8,7 @@ import static java.util.concurrent.ForkJoinTask.invokeAll;
 
 public class ForkJoin extends RecursiveTask<Integer> {
 
-     private final int [] array;
+    private final int [] array;
     private final int inici, finale;
 
     public ForkJoin(int [] arr, int ini, int fin) {
@@ -17,10 +17,21 @@ public class ForkJoin extends RecursiveTask<Integer> {
         this.finale = fin;
     }
 
+    /**
+     * En el compute() es calcula el sou maxim emmagatzemat en l'array.
+     * @return 
+     */
     @Override
     protected Integer compute() {
+        int sueldoMax = array[0];
         if (finale - inici <= 1) {
-            int sueldoMax = Math.max(inici, finale);
+            
+            for (int i = 0; i < array.length - 1; i++) {
+                if(array[i] > sueldoMax){
+                    sueldoMax = array[i];
+                }
+            }
+            
          return sueldoMax;
         }else {
         //Dividir el problema en parts més petites
@@ -50,6 +61,7 @@ public class ForkJoin extends RecursiveTask<Integer> {
         Integer result = pool.invoke(tasca);
         
         System.out.println("Resultat és: " + result);
+        
     }
 
 }
