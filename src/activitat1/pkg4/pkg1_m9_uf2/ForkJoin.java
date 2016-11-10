@@ -32,7 +32,7 @@ public class ForkJoin extends RecursiveTask<Integer> {
                 }
             }
             
-         return sueldoMax;
+        return sueldoMax;
         }else {
         //Dividir el problema en parts més petites
          int mitat = inici + (finale - inici) / 2;
