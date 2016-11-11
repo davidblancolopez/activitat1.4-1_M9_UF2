@@ -1,6 +1,7 @@
 package activitat1.pkg4.pkg1_m9_uf2;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.concurrent.RecursiveTask;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
@@ -8,14 +9,15 @@ import static java.util.concurrent.ForkJoinTask.invokeAll;
 
 public class ForkJoin extends RecursiveTask<Integer> {
 
-    private final int [] array;
+    private final ArrayList<Integer> array;
     private final int inici, finale;
 
-    public ForkJoin(int [] arr, int ini, int fin) {
-        this.array = arr;
-        this.inici = ini;
-        this.finale = fin;
-    }
+    @SuppressWarnings("unchecked")
+        public ForkJoin(ArrayList arr, int ini, int fin) {
+            this.array = arr;
+            this.inici = ini;
+            this.finale = fin;
+        }
 
     /**
      * En el compute() es calcula el sou maxim emmagatzemat en l'array.
@@ -23,14 +25,10 @@ public class ForkJoin extends RecursiveTask<Integer> {
      */
     @Override
     protected Integer compute() {
-        int sueldoMax = array[0];
+        int sueldoMax = 0;
         if (finale - inici <= 1) {
             
-            for (int i = 0; i < array.length - 1; i++) {
-                if(array[i] > sueldoMax){
-                    sueldoMax = array[i];
-                }
-            }
+            sueldoMax = Math.max(array.get(inici), array.get(finale));
             
         return sueldoMax;
         }else {
@@ -48,16 +46,18 @@ public class ForkJoin extends RecursiveTask<Integer> {
 
 
     public static void main(String[] args) {
-        int sueldos[] = new int[20000];
+        Random random = new Random();
+        ArrayList<Integer> sueldos = new ArrayList<>();
 
         for (int i = 1; i < 20000; i++) {
-            sueldos[i - 1] = (int) (Math.random() * (0 - (50000 + 0)) + (50000));
+            int sueldoAleatorio = random.nextInt(50001);
+            sueldos.add(sueldoAleatorio);
         }
 
 
         int NumberOfProcessors = Runtime.getRuntime().availableProcessors();
         ForkJoinPool pool = new ForkJoinPool(NumberOfProcessors);
-        ForkJoin tasca = new ForkJoin(sueldos, 0, sueldos.length - 1);
+        ForkJoin tasca = new ForkJoin(sueldos, 0, sueldos.size() - 1);
         Integer result = pool.invoke(tasca);
         
         System.out.println("Resultat és: " + result);
