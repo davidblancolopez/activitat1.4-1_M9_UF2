@@ -9,10 +9,15 @@ import static java.util.concurrent.ForkJoinTask.invokeAll;
 
 public class ForkJoin extends RecursiveTask<Integer> {
 
+    //Declaració de variables.
     private final ArrayList<Integer> array;
     private final int inici, finale;
 
+    //Amb això evitem que quan s'executi el programa ens mostri missatges d'erros.
     @SuppressWarnings("unchecked")
+    /**
+     * Constructor del ForkJoin
+     */
         public ForkJoin(ArrayList arr, int ini, int fin) {
             this.array = arr;
             this.inici = ini;
@@ -21,6 +26,8 @@ public class ForkJoin extends RecursiveTask<Integer> {
 
     /**
      * En el compute() es calcula el sou maxim emmagatzemat en l'array.
+     * Divideix l'array i compara 2 resultats, els divideix per la meitat i si segueix sent massa
+     * gran els torna a dividir.
      * @return 
      */
     @Override
@@ -44,7 +51,12 @@ public class ForkJoin extends RecursiveTask<Integer> {
 
 
 
-
+    /**
+     * Metode Main on es crea l'array de sous que conté tots els sous de la població
+     * Es creen el numero de fils segons el numero disponible i fa el invoke
+     * que dura a terme la tasca que tornara el sou mes gran.
+     * @param args 
+     */
     public static void main(String[] args) {
         Random random = new Random();
         ArrayList<Integer> sueldos = new ArrayList<>();
